@@ -1,0 +1,72 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>
+        HES TestTask
+    </title>
+</head>
+<body>
+<header>
+    <div th:if="${userId}">
+        <nav>
+            <a href="home">Home</a>
+            <a href="new">Add User</a>
+            <a href="user">User List</a>
+            <a href="logout">Log out</a>
+        </nav>
+    </div>
+    <div th:unless="${userId}">
+        <a href="home">Home</a>
+        <a href="login">Login</a>
+    </div>
+</header>
+<p th:if="${message}" th:text="${{message}}"></p>
+<h1>User List</h1>
+<table>
+    <tr>
+        <td>UserName</td>
+        <td>FirstName</td>
+        <td>LastName</td>
+        <td>Role</td>
+        <td>Status</td>
+        <td>CreationDate</td>
+    </tr>
+    <tr th:each="u :${userList}">
+        <form id="${u.id}" th:attr="action=@{'/user/' + ${u.id}}" method="post">
+            <input type="hidden" name="id" th:value="${u.id}"/>
+            <td th:text="${u.userName}"/></td>
+            <td th:text="${u.firstName}"/></td>
+            <td th:text="${u.lastName}"/></td>
+            <td>
+                <select name="role">
+                    <option th:each="r : ${roleList}"
+                            th:value="${r.name}"
+                            th:text="${r.name}"
+                            th:selected="${r.id == u.role}"
+                            disabled="true">
+                    </option>
+                </select>
+            </td>
+            <td>
+                <select name="status">
+                    <option th:each="s : ${statusList}"
+                            th:value="${s.name}"
+                            th:text="${s.name}"
+                            th:selected="${s.id == u.status}"
+                            disabled="true"></option>
+                </select>
+            </td>
+            <td th:text="${u.creationDate}"></td>
+            <td><input type="submit" value="Edit" th:if="${userRole == 1}"></input></td>
+        </form>
+    </tr>
+
+</table>
+
+
+
+
+
+
+
+</body>
+</html>

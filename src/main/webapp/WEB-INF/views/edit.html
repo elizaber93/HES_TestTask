@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>
+            HES TestTask
+        </title>
+    </head>
+    <body>
+    <header>
+        <div th:if="${userId}">
+            <nav>
+                <a href="home">Home</a>
+                <a href="new">Add User</a>
+                <a href="user">User List</a>
+                <a href="logout">Log out</a>
+            </nav>
+        </div>
+        <div th:unless="${userId}">
+            <a href="home">Home</a>
+            <a href="login">Login</a>
+        </div>
+    </header>
+    <p th:if="${message}" th:text="${{message}}"></p>
+        <h1>Edit user</h1>
+        <form method="post" th:attr="action=@{'/user/' + ${{user.id}} + '/edit'}">
+            <input type="hidden" name="id" th:value="${{user.id}}"/>
+            <input type="text" name="userName" th:value="${{user.userName}}"/>
+            <input type="text" name="firstName" th:value="${{user.firstName}}"/>
+            <input type="text" name="lastName" th:value="${{user.lastName}}"/>
+            <select name="status">
+                <option th:each="s : ${statusList}"
+                        th:value="${s.name}"
+                        th:text="${s.name}"></option>
+            </select>
+            <select name="role">
+                <option th:each="r : ${roleList}"
+                        th:value="${r.name}"
+                        th:text="${r.name}">
+                </option>
+            </select>
+
+            <input type="submit" value="Save"/>
+            <input type="button" onclick="location.href = 'user'" value="Cancel"/>
+        </form>
+    </body>
+</html>
